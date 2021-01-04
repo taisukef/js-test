@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>getDisplayMedia test</title>
+<script type="module">
+const startCapture = async () => {
+      const stream = await navigator.mediaDevices.getDisplayMedia({
+            video: true,
+            audio: false
+      });
+      console.log(stream);
+      video.onloadedmetadata = () => {
+            video.play();
+      };
+      video.srcObject = stream;
+};
+window.onload = async () => {
+      startCapture();
+      btn.onclick = startCapture;
+      cap.onclick = () => {
+            const img = captureImage();
+            sss.appendChild(img);
+      };
+};
+const captureImage = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = video.width;
+      canvas.height = video.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const img = new Image();
+      img.src = canvas.toDataURL("image/png");
+      return img;
+};
+</script>
+</head>
+<body>
+<h1>getDisplayMedia test</h1>
+<button id="btn">btn</button>
+<button id="cap">cap</button>
+<br>
+<video id="video" width="400" height="300"></video>
+<div id="sss"></div>
+</body>
+</html>
